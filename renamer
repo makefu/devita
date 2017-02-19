@@ -1,0 +1,12 @@
+#!/bin/sh
+# nix-shell -p python2 python2Packages.pyyaml
+set -euf
+sfo="python \"$(readlink -f "$(dirname "$0")")\"/sfo.py"
+ls -1 | while read game;do
+  $sfo "${game}/PS3_GAME/PARAM.SFO" > /tmp/params
+  unset TITLE_ID TITLE
+  . /tmp/params
+  REN="${TITLE_ID}-[${TITLE}]"
+  echo "$REN"
+  test -e "$REN" || mv -v "$game" "$REN"
+done

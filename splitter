@@ -1,0 +1,4 @@
+find $1 -size +4G -execdir sh -c 'echo "Spliting file: $@";\
+ split -b 4000m -d -a 2 "$@" "$@.666";\
+ rm "$@"' ps3-split {} +
+echo "Finished!!"

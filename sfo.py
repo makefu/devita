@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 # Playstation Vita System Object File dump
 # Contact: Marshall Ward (marshall.ward@gmail.com)
 
@@ -6,6 +7,7 @@ import binascii
 import os
 import struct
 import yaml
+import sys
 
 # SFO globals
 HEADER_BYTES = 20
@@ -108,11 +110,12 @@ class sfo(object):
     
     #---
     def dump(self):
-        print 'SFO File Signature:', self.file_signature
-        print 'SFO File Version:', self.file_version
+        print 'SFO_File_Signature={}'.format(self.file_signature)
+        print 'SFO_File_Version={}'.format( self.file_version)
         
         for p in self.params:
-            print "{}: {}".format(p, self.params[p])
+            print "{}=\"{}\"".format(p,
+                    str(self.params[p]).replace('"','\\"').replace("©","").replace("™","").replace("®","").replace(":","").replace("\n","").strip())
 
     
     #---
@@ -195,7 +198,6 @@ class sfo(object):
 if __name__ == '__main__':
     
     # TODO: Read file from command line
-    fname = 'param.sfo'
+    fname = sys.argv[1]
     test = sfo(fname)
     test.dump()
-    test.write('test.sfo')
